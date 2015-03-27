@@ -1,0 +1,130 @@
+.tile-icon {
+    display: inline-block;
+    width: 38px;
+    height: 52px;
+    overflow: hidden;
+    border: 1px solid #333;
+    -webkit-box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.5);
+}
+
+.tile-icon-rotated {
+    display: inline-block;
+    width: 52px;
+    height: 38px;
+    overflow: hidden;
+    border: 1px solid #333;
+    -webkit-box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.5);
+}
+
+.tile-icon img, .tile-icon-rotated img {
+    position: relative;
+}
+
+.tile-icon .wrap, .tile-icon-rotated .wrap {
+    display: inline-block;
+    width: 500px;
+    height: 500px;
+}
+
+.closed-part {
+    padding: 9px;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    background-color: #ccc;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.tile-icon-stacked {
+
+}
+
+.tile-icon-stacked-upper {
+    margin-bottom: 40px;
+}
+
+.tile-icon-stacked-lower {
+    margin-left: -54px;
+}
+
+.tile-icon-1man img {   left:   0px;    top: 0px; }
+.tile-icon-2man img {   left:   -38px;  top: 0px; }
+.tile-icon-3man img {   left:   -76px;  top: 0px; }
+.tile-icon-4man img {   left:   -114px; top: 0px; }
+.tile-icon-5man img {   left:   -152px; top: 0px; }
+.tile-icon-6man img {   left:   0px;    top: -52px; }
+.tile-icon-7man img {   left:   -38px;  top: -52px; }
+.tile-icon-8man img {   left:   -76px;  top: -52px; }
+.tile-icon-9man img {   left:   -114px; top: -52px; }
+.tile-icon-1pin img {   left:   -152px; top: -52px; }
+.tile-icon-2pin img {   left:   0px;    top: -104px; }
+.tile-icon-3pin img {   left:   -38px;  top: -104px; }
+.tile-icon-4pin img {   left:   -76px;  top: -104px; }
+.tile-icon-5pin img {   left:   -114px; top: -104px; }
+.tile-icon-6pin img {   left:   -152px; top: -104px; }
+.tile-icon-7pin img {   left:   0px;    top: -156px; }
+.tile-icon-8pin img {   left:   -38px;  top: -156px; }
+.tile-icon-9pin img {   left:   -76px;  top: -156px; }
+.tile-icon-1sou img {   left:   -114px; top: -156px; }
+.tile-icon-2sou img {   left:   -152px; top: -156px; }
+.tile-icon-3sou img {   left:   0px;    top: -208px; }
+.tile-icon-4sou img {   left:   -38px;  top: -208px; }
+.tile-icon-5sou img {   left:   -76px;  top: -208px; }
+.tile-icon-6sou img {   left:   -114px; top: -208px; }
+.tile-icon-7sou img {   left:   -152px; top: -208px; }
+.tile-icon-8sou img {   left:   0px;    top: -260px; }
+.tile-icon-9sou img {   left:   -38px;  top: -260px; }
+.tile-icon-east img {   left:   -76px;  top: -260px; }
+.tile-icon-south img {  left:   -114px; top: -260px; }
+.tile-icon-west img {   left:   -152px; top: -260px; }
+.tile-icon-north img {  left:   0px;    top: -312px; }
+.tile-icon-hatsu img {  left:   -38px;  top: -312px; }
+.tile-icon-chun img {   left:   -76px;  top: -312px; }
+.tile-icon-haku img {   left:   -114px; top: -312px; }
+.tile-icon-akaman img { left:   0px;    top: -364px; }
+.tile-icon-akapin img { left:   -38px;  top: -364px; }
+.tile-icon-akasou img { left:   -76px;  top: -364px; }
+.tile-icon-closed img { left:   -114px; top: -364px; }
+
+.tile-icon-rotated-1man img {   left:   0px;    top: 0px; }
+.tile-icon-rotated-2man img {   left:   -52px;  top: 0px; }
+.tile-icon-rotated-3man img {   left:   -104px; top: 0px; }
+.tile-icon-rotated-4man img {   left:   -156px; top: 0px; }
+.tile-icon-rotated-5man img {   left:   -208px; top: 0px; }
+.tile-icon-rotated-6man img {   left:   0px;    top: -38px; }
+.tile-icon-rotated-7man img {   left:   -52px;  top: -38px; }
+.tile-icon-rotated-8man img {   left:   -104px; top: -38px; }
+.tile-icon-rotated-9man img {   left:   -156px; top: -38px; }
+.tile-icon-rotated-1pin img {   left:   -208px; top: -38px; }
+.tile-icon-rotated-2pin img {   left:   0px;    top: -76px; }
+.tile-icon-rotated-3pin img {   left:   -52px;  top: -76px; }
+.tile-icon-rotated-4pin img {   left:   -104px; top: -76px; }
+.tile-icon-rotated-5pin img {   left:   -156px; top: -76px; }
+.tile-icon-rotated-6pin img {   left:   -208px; top: -76px; }
+.tile-icon-rotated-7pin img {   left:   0px;    top: -114px; }
+.tile-icon-rotated-8pin img {   left:   -52px;  top: -114px; }
+.tile-icon-rotated-9pin img {   left:   -104px; top: -114px; }
+.tile-icon-rotated-1sou img {   left:   -156px; top: -114px; }
+.tile-icon-rotated-2sou img {   left:   -208px; top: -114px; }
+.tile-icon-rotated-3sou img {   left:   0px;    top: -152px; }
+.tile-icon-rotated-4sou img {   left:   -52px;  top: -152px; }
+.tile-icon-rotated-5sou img {   left:   -104px; top: -152px; }
+.tile-icon-rotated-6sou img {   left:   -156px; top: -152px; }
+.tile-icon-rotated-7sou img {   left:   -208px; top: -152px; }
+.tile-icon-rotated-8sou img {   left:   0px;    top: -190px; }
+.tile-icon-rotated-9sou img {   left:   -52px;  top: -190px; }
+.tile-icon-rotated-east img {   left:   -104px; top: -190px; }
+.tile-icon-rotated-south img {  left:   -156px; top: -190px; }
+.tile-icon-rotated-west img {   left:   -208px; top: -190px; }
+.tile-icon-rotated-north img {  left:   0px;    top: -228px; }
+.tile-icon-rotated-hatsu img {  left:   -52px;  top: -228px; }
+.tile-icon-rotated-chun img {   left:   -104px; top: -228px; }
+.tile-icon-rotated-haku img {   left:   -156px; top: -228px; }
+.tile-icon-rotated-akaman img { left:   0px;    top: -266px; }
+.tile-icon-rotated-akapin img { left:   -52px;  top: -266px; }
+.tile-icon-rotated-akasou img { left:   -104px; top: -266px; }
+.tile-icon-rotated-closed img { left:   -156px; top: -266px; }
+
