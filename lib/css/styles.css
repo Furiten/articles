@@ -34,3 +34,7 @@ hr {
     padding: 1px;
     border: 1px solid #666;
 }
+
+td strong {
+    line-height: 16px;
+}

@@ -24,6 +24,7 @@ function embrace(originalString, options, callback) {
             .replace(/<p>([\s\S]*?)<\/p>/g, '<div class="paragraph">$1</div>') // bootstrapify :)
             .replace(/<table>/g, '<table class="table table-striped">')
             .replace(/<th>/g, '<th style="text-align: center">')
+            .replace(/\{\{hint:(.*?):(.*?)\}\}/g, '<abbr title="$2">$1</abbr>')
         ;
         data = data
             .replace('{{pageTitle}}', title)
