@@ -5,6 +5,8 @@ var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var concatCss = require('gulp-concat-css');
 var rename = require('gulp-rename');
+var md = require('gulp-markdown-it');
+var embrace = require('./src/gulp-plugins/embrace');
 
 gulp.task('clean', function() {
     return gulp.src('build')
@@ -37,10 +39,19 @@ gulp.task('assets-img', function() {
         .pipe(gulp.dest('build/lib'));
 });
 gulp.task('assets', ['assets-ico', 'assets-img']);
+gulp.task('build-md', function() {
+    return gulp.src('src/pages/*.md')
+        .pipe(md())
+        .pipe(embrace({
+            layout: 'src/layout.html'
+        }))
+        .pipe(gulp.dest('build'));
+});
+
 gulp.task('build', function(cb) {
     seq(
         'clean',
-        ['build-js', 'build-css', 'build-css-print', 'assets'],
+        ['build-js', 'build-css', 'build-css-print', 'build-md', 'assets'],
         cb
     );
 });
