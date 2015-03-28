@@ -43,7 +43,9 @@ gulp.task('build-md', function() {
     return gulp.src('src/pages/*.md')
         .pipe(md())
         .pipe(embrace({
-            layout: 'src/layout.html'
+            layout: 'src/layout.html',
+            pathToTileImages: 'lib/',
+            imgPath: 'lib/'
         }))
         .pipe(gulp.dest('build'));
 });
