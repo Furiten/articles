@@ -24,7 +24,8 @@ function parseHelpers(input, options) {
     var output = [];
 
     var debugInfo = {
-        tags: {}
+        tags: {},
+        parseFails: []
     };
     function openTag(title) {
         debugInfo.tags[title] = debugInfo.tags[title] ? debugInfo.tags[title] + 1 : 1;
@@ -38,6 +39,206 @@ function parseHelpers(input, options) {
             if (info[i]) unclosedTags.push('Unclosed tag: ' + i);
         }
         return unclosedTags;
+    }
+
+    function tile(piece) {
+        var params = piece.split(/\s+/);
+        var classes = ['tile-icon'];
+        var tilePic = 'tiles';
+        var tileName = null;
+        for (var j = 0; j < params.length; j++) {
+            switch(params[j]) {
+                case 'tile':
+                    break;
+                case 'rotated':
+                    classes.push('tile-iconrotated');
+                    tilePic += 'rotated';
+                    break;
+                case 'stacked-upper':
+                    classes.push('tile-iconstacked-upper'); // TODO: сейчас всегда сначала должен идти тайл upper, а после него lower!
+                    break;
+                case 'stacked-lower':
+                    classes.push('tile-iconstacked-lower');
+                    break;
+                default:
+                    tileName = params[j];
+            }
+        }
+        classes.push('tile-icon' + (tilePic == 'tilesrotated' ? 'rotated' : '') + '-' + tileName);
+        return '<span class="' + classes.join(' ') + '"><span class="wrap"><img src="' + options.pathToTileImages + '/' + tilePic + '.png"></span></span>';
+    }
+
+    function pair(piece) {
+        var params = piece.split(/\s+/);
+        var tileValue = null;
+        for (var j = 0; j < params.length; j++) {
+            switch (params[j]) {
+                case 'pair':
+                    break;
+                default:
+                    tileValue = params[j];
+            }
+        }
+        if (!tileValue) {
+            debugInfo.parseFails.push('Failed to parse: ' + piece);
+            return '';
+        }
+
+        return tile(tileValue) + tile(tileValue);
+    }
+
+    function pon(piece) {
+        var params = piece.split(/\s+/);
+        var type = null; // если остается null, значит пон закрыт
+        var tileValue = null;
+        for (var j = 0; j < params.length; j++) {
+            switch (params[j]) {
+                case 'pon':
+                    break;
+                case 'left':
+                case 'right':
+                case 'center':
+                    type = params[j];
+                    break;
+                default:
+                    tileValue = params[j];
+            }
+        }
+
+        if (!tileValue) {
+            debugInfo.parseFails.push('Failed to parse: ' + piece);
+            return '';
+        }
+
+        return tile(tileValue + (type == 'left' ? ' rotated' : '')) +
+            tile(tileValue + (type == 'center' ? ' rotated' : '')) +
+            tile(tileValue + (type == 'right' ? ' rotated' : ''));
+    }
+
+    function chi(piece) {
+        var params = piece.split(/\s+/);
+        var takenTile = null; // если остается null, значит чи закрыт
+        var tileValue = null;
+        for (var j = 0; j < params.length; j++) {
+            switch (params[j]) {
+                case 'chi':
+                    break;
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    takenTile = params[j];
+                    break;
+                default:
+                    tileValue = params[j];
+            }
+        }
+
+        var tileValues = tileValue.match(/(\d)(\d)(\d)(\w+)/); // на входе типа 345man
+        if (!tileValues) {
+            debugInfo.parseFails.push('Failed to parse: ' + piece);
+            return '';
+        }
+
+        if (takenTile == tileValues[1]) {
+            return tile(tileValues[1]+tileValues[4] + ' rotated') +
+                tile(tileValues[2]+tileValues[4]) +
+                tile(tileValues[3]+tileValues[4]);
+        } else if (takenTile == tileValues[3]) {
+            return tile(tileValues[2]+tileValues[4] + ' rotated') +
+                tile(tileValues[1]+tileValues[4]) +
+                tile(tileValues[3]+tileValues[4]);
+        } else if (takenTile == tileValues[3]) {
+            return tile(tileValues[3]+tileValues[4] + ' rotated') +
+                tile(tileValues[1]+tileValues[4]) +
+                tile(tileValues[2]+tileValues[4]);
+        } else { // closed chi
+            return tile(tileValues[1]+tileValues[4]) +
+                tile(tileValues[2]+tileValues[4]) +
+                tile(tileValues[3]+tileValues[4]);
+        }
+
+    }
+
+    function kan(piece) {
+        var params = piece.split(/\s+/);
+        var type = null; // если остается null, значит кан закрыт
+        var kanType = 'closed';
+        var tileValue = null;
+        for (var j = 0; j < params.length; j++) {
+            switch (params[j]) {
+                case 'kan':
+                    break;
+                case 'left':
+                case 'right':
+                case 'center':
+                    type = params[j];
+                    break;
+                case 'taken':
+                case 'complemented':
+                    kanType = params[j];
+                    break;
+                default:
+                    tileValue = params[j];
+            }
+        }
+
+        if (type && kanType == 'closed') {
+            debugInfo.parseFails.push('Closed kan cannot be left/right/center: ' + piece);
+            return '';
+        } else if (!type && kanType != 'closed') {
+            debugInfo.parseFails.push('Opened kan must be left/right/center: ' + piece);
+            return '';
+        }
+
+        switch (kanType) {
+            case 'taken':
+                return tile(tileValue + (type == 'left' ? ' rotated' : '')) +
+                    tile(tileValue + (type == 'center' ? ' rotated' : '')) +
+                    tile(tileValue) +
+                    tile(tileValue + (type == 'right' ? ' rotated' : ''));
+            case 'complemented':
+                switch (type) {
+                    case 'left':
+                        return tile(tileValue + ' rotated stacked-upper') +
+                            tile(tileValue + ' rotated stacked-lower') +
+                            tile(tileValue) +
+                            tile(tileValue);
+                    case 'center':
+                        return tile(tileValue) +
+                            tile(tileValue + ' rotated stacked-upper') +
+                            tile(tileValue + ' rotated stacked-lower') +
+                            tile(tileValue);
+                    case 'right':
+                        return tile(tileValue) +
+                            tile(tileValue) +
+                            tile(tileValue + ' rotated stacked-upper') +
+                            tile(tileValue + ' rotated stacked-lower');
+                }
+            case 'closed': // explicit
+            default:
+                return tile('closed') + tile(tileValue) + tile(tileValue) + tile('closed');
+        }
+    }
+
+    function tileset(piece) {
+        var params = piece.split(/\s+/);
+        var tileValues = [];
+        for (var j = 0; j < params.length; j++) {
+            switch (params[j]) {
+                case 'tileset':
+                    break;
+                default:
+                    tileValues.push(tile(params[j]));
+            }
+        }
+
+        return tileValues.join('');
     }
 
     function selectedOutput() {
@@ -87,38 +288,22 @@ function parseHelpers(input, options) {
                 selectedOutput().push('<div class="illustration"><img src="' + options.imgPath + pieces[i].split(/\s+/)[1] + '" width="' + pieces[i].split(/\s+/)[2] + '" alt="" /></div>');
                 break;
             case 'tile':
-                var params = pieces[i].split(/\s+/);
-                var classes = ['tile-icon'];
-                var tilePic = 'tiles';
-                var tileName = null;
-                for (var j = 0; j < params.length; j++) {
-                    switch(params[j]) {
-                        case 'tile':
-                            break;
-                        case 'rotated':
-                            classes.push('tile-iconrotated');
-                            tilePic += 'rotated';
-                            break;
-                        case 'stacked-upper':
-                            classes.push('tile-iconstacked-upper'); // TODO: сейчас всегда сначала должен идти тайл upper, а после него lower!
-                            break;
-                        case 'stacked-lower':
-                            classes.push('tile-iconstacked-lower');
-                            break;
-                        default:
-                            tileName = params[j];
-                    }
-                }
-                classes.push('tile-icon' + (tilePic == 'tilesrotated' ? 'rotated' : '') + '-' + tileName);
-                selectedOutput().push('<span class="' + classes.join(' ') + '"><span class="wrap"><img src="' + options.pathToTileImages + '/' + tilePic + '.png"></span></span>');
+                selectedOutput().push(tile(pieces[i]));
                 break;
-            case 'pon': // TODO all, для ускорения набора рук
+            case 'pon':
+                selectedOutput().push(pon(pieces[i]));
                 break;
             case 'chi':
+                selectedOutput().push(chi(pieces[i]));
                 break;
             case 'kan':
+                selectedOutput().push(kan(pieces[i]));
                 break;
             case 'pair':
+                selectedOutput().push(pair(pieces[i]));
+                break;
+            case 'tileset':
+                selectedOutput().push(tileset(pieces[i]));
                 break;
             case 'hand':
                 openTag('hand');
@@ -165,8 +350,8 @@ function parseHelpers(input, options) {
     return {
         output: output.join(''),
         title: title,
-        parseError: !!stack.length,
-        details: getUnclosedTags(debugInfo.tags)
+        parseError: !!stack.length || !!debugInfo.parseFails.length,
+        details: getUnclosedTags(debugInfo.tags).concat(debugInfo.parseFails)
     }
 }
 
