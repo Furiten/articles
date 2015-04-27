@@ -279,7 +279,7 @@ function parseHelpers(input, options) {
                 while ((current = stack.pop()).split(/\s+/)[0] != 'hint' && current !== undefined) {
                     tmpStack.push(current.toString());
                 }
-                selectedOutput().push('<abbr title="' + current.split(/\s+/).slice(1) + '">' + tmpStack.reverse().join('') + '</abbr>');
+                selectedOutput().push('<abbr title="' + current.split(/\s+/).slice(1).join(' ') + '">' + tmpStack.reverse().join('') + '</abbr>');
                 break;
             case 'image':
                 selectedOutput().push('<img src="' + options.imgPath + pieces[i].split(/\s+/)[1] + '" alt="" />');
