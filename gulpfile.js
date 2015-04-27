@@ -34,11 +34,15 @@ gulp.task('assets-ico', function() {
     return gulp.src('lib/ico/*')
         .pipe(gulp.dest('build/lib'));
 });
+gulp.task('assets-files', function() {
+    return gulp.src('lib/files/*')
+        .pipe(gulp.dest('build/lib'));
+});
 gulp.task('assets-img', function() {
     return gulp.src('lib/img/*')
         .pipe(gulp.dest('build/lib'));
 });
-gulp.task('assets', ['assets-ico', 'assets-img']);
+gulp.task('assets', ['assets-ico', 'assets-img', 'assets-files']);
 gulp.task('build-md', function() {
     return gulp.src('src/pages/*.md')
         .pipe(md())

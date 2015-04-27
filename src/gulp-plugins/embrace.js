@@ -149,7 +149,7 @@ function parseHelpers(input, options) {
             return tile(tileValues[1]+tileValues[4] + ' rotated') +
                 tile(tileValues[2]+tileValues[4]) +
                 tile(tileValues[3]+tileValues[4]);
-        } else if (takenTile == tileValues[3]) {
+        } else if (takenTile == tileValues[2]) {
             return tile(tileValues[2]+tileValues[4] + ' rotated') +
                 tile(tileValues[1]+tileValues[4]) +
                 tile(tileValues[3]+tileValues[4]);
@@ -283,6 +283,9 @@ function parseHelpers(input, options) {
                 break;
             case 'image':
                 selectedOutput().push('<img src="' + options.imgPath + pieces[i].split(/\s+/)[1] + '" alt="" />');
+                break;
+            case 'anchor':
+                selectedOutput().push('<a name="' + pieces[i].split(/\s+/)[1] + '"></a>');
                 break;
             case 'imageblock':
                 selectedOutput().push('<div class="illustration"><img src="' + options.imgPath + pieces[i].split(/\s+/)[1] + '" width="' + pieces[i].split(/\s+/)[2] + '" alt="" /></div>');
