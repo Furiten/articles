@@ -281,6 +281,17 @@ function parseHelpers(input, options) {
                 }
                 selectedOutput().push('<abbr title="' + current.split(/\s+/).slice(1).join(' ') + '">' + tmpStack.reverse().join('') + '</abbr>');
                 break;
+            case 'link':
+                openTag('link');
+                stack.push(pieces[i]);
+                break;
+            case '/link':
+                closeTag('link');
+                while ((current = stack.pop()).split(/\s+/)[0] != 'link' && current !== undefined) {
+                    tmpStack.push(current.toString());
+                }
+                selectedOutput().push('<a href="' + current.split(/\s+/).slice(1).join(' ') + '">' + tmpStack.reverse().join('') + '</a>');
+                break;
             case 'image':
                 selectedOutput().push('<img src="' + options.imgPath + pieces[i].split(/\s+/)[1] + '" alt="" />');
                 break;
