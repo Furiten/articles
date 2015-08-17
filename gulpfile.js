@@ -4,6 +4,7 @@ var seq = require('run-sequence');
 var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var concatCss = require('gulp-concat-css');
+var concatJs = require('gulp-concat');
 var rename = require('gulp-rename');
 var md = require('gulp-markdown-it');
 var embrace = require('./src/gulp-plugins/embrace');
@@ -13,7 +14,8 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 gulp.task('build-js', function() {
-    return gulp.src('lib/js/*.js')
+    return gulp.src(['lib/js/jquery.js', 'lib/js/bootstrap.js', 'lib/js/tooltips.js'])
+        .pipe(concatJs('bundle.js'))
         .pipe(uglify())
         .pipe(rename('lib/bundle.js'))
         .pipe(gulp.dest('build'));
