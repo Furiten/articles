@@ -376,6 +376,8 @@ function embrace(originalString, options, callback) {
             return;
         }
 
+        originalString = originalString.replace(/&lt;\!--(.*?)--&gt;/g, ''); // remove html comments
+
         var parsed = parseHelpers(originalString, options);
         if (parsed.parseError) {
             callback({'message': 'Failed to parse document helpers: \n' + parsed.details.join('\n')}, null);
